@@ -19,7 +19,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 🪹 **Data Sweeper: Clean & Organize Your Data Efficiently!**
+# 🧪 **Data Sweeper: Clean & Organize Your Data Efficiently!**
 st.title("✨ Data Sweeper 🪹")
 st.write("A tool to help you clean and organize your data easily.")
 
@@ -32,7 +32,7 @@ if uploaded_file:
     if file_ext == ".csv":
         df = pd.read_csv(uploaded_file)
     elif file_ext == ".xlsx":
-        df = pd.read_excel(uploaded_file)
+        df = pd.read_excel(uploaded_file, engine='openpyxl')
     else:
         st.error(f"❌ Unsupported file type: {file_ext}")
         st.stop()
@@ -51,7 +51,7 @@ if uploaded_file:
                 df.drop_duplicates(inplace=True)
                 st.success("✅ Duplicates Removed Successfully!")
                 time.sleep(1)  # Animation effect
-                st.experimental_rerun()
+                st.rerun()
 
         with col2:
             if st.button(f"🔧 Fill Missing Values for {uploaded_file.name}"):
@@ -59,7 +59,7 @@ if uploaded_file:
                 df[numeric_cols] = df[numeric_cols].fillna(df[numeric_cols].mean())
                 st.success("✅ Missing Values Filled Successfully!")
                 time.sleep(1)
-                st.experimental_rerun()
+                st.rerun()
 
     # 🎯 **Column Selection**
     st.subheader("🎯 Select Columns to Keep")
@@ -78,13 +78,13 @@ if uploaded_file:
     if st.button(f"📤 Convert & Download {uploaded_file.name}"):
         buffer = BytesIO()
         if conversion_type == "CSV":
-            df.to_csv(buffer, index=False)
+            df.to_csv(buffer, index=False, encoding='utf-8')
             file_name = uploaded_file.name.replace(file_ext, ".csv")
-            mime_type = "text/csv"
+            mime = "text/csv"
         elif conversion_type == "Excel":
-            df.to_excel(buffer, index=False)
+            df.to_excel(buffer, index=False, engine='openpyxl')
             file_name = uploaded_file.name.replace(file_ext, ".xlsx")
-            mime_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            mime = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         
         buffer.seek(0)
         
@@ -92,7 +92,8 @@ if uploaded_file:
             label=f"⬇️ Download {file_name} as {conversion_type}",
             data=buffer,
             file_name=file_name,
-            mime_type=mime_type
+            mime=mime
         )
         
         st.success("✅ File Ready for Download!")
+
