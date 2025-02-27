@@ -69,7 +69,12 @@ if uploaded_file:
     # 📊 **Data Visualization**
     st.subheader("📊 Data Visualization")
     if st.checkbox(f"📈 Show Visualization for {uploaded_file.name}"):
-        st.bar_chart(df.select_dtypes(include='number').iloc[:, :2])
+        numeric_data = df.select_dtypes(include=['number'])
+        
+        if not numeric_data.empty:
+            st.bar_chart(numeric_data)
+        else:
+            st.warning("⚠️ No numeric columns available for visualization.")
     
     # 🔄 **Conversion Options**
     st.subheader("🔄 Convert & Download")
