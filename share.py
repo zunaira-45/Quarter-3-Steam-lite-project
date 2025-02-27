@@ -19,12 +19,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 🧹 **Data Sweeper: Clean & Organize Your Data Efficiently!**
-st.title("✨ Data Sweeper 🧹")
+# 🪹 **Data Sweeper: Clean & Organize Your Data Efficiently!**
+st.title("✨ Data Sweeper 🪹")
 st.write("A tool to help you clean and organize your data easily.")
 
 # 📂 **Upload Data File**
-uploaded_file = st.file_uploader("📤 Upload your data file (CSV or Excel):", type=["csv", "xlsx"], accept_multiple_files=False)
+uploaded_file = st.file_uploader("📄 Upload your data file (CSV or Excel):", type=["csv", "xlsx"], accept_multiple_files=False)
 
 if uploaded_file:
     file_ext = os.path.splitext(uploaded_file.name)[-1].lower()
@@ -91,7 +91,7 @@ if uploaded_file:
         st.download_button(
             label=f"⬇️ Download {file_name} as {conversion_type}",
             data=buffer,
-            filename=file_name,
+            file_name=file_name,
             mime_type=mime_type
         )
         
